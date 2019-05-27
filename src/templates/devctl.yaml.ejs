@@ -1,0 +1,11 @@
+services:
+  <%_ props.values.forEach(function(v) { _%>
+  - name: "<%- v.props.database -%>"
+    path: "<%- v.props.targetDir -%>"
+    description: "<%- v.props.version -%>"
+    notes: "Check <%- v.target -%> for credentials and configuration"
+  <%_ }); _%>
+
+environment:
+  - name: dev
+    description: Run services locally

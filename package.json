@@ -1,0 +1,35 @@
+{
+  "name": "@splitmedialabs/devctl",
+  "version": "0.0.1",
+  "description": "Easily start developing in monorepos with docker-compose",
+  "private": true,
+  "bin": {
+    "devctl": "bin/devctl"
+  },
+  "scripts": {},
+  "files": [
+    "src",
+    "LICENSE",
+    "readme.md",
+    "docs",
+    "bin"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.4",
+    "dockerode": "^2.5.8",
+    "get-port": "^5.0.0",
+    "gluegun": "^3.2.3",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-jest": "^22.6.4",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.12.1"
+  }
+}

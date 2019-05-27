@@ -1,0 +1,19 @@
+compose: 
+  default: 
+    <%= props.database %>:
+      image: "<%= props.database %>:<%= props.version %>"
+      ports:
+        - "<%= props.defaultPort %>:<%= props.defaultPort %>"
+      <%_ if (props.defaultMount) { _%>
+      volumes:
+        - ./.devctl/data/<%= props.database %>:<%= props.defaultMount %>
+      <%_ } _%>
+      restart: always
+      <%_ if (Object.keys(props.env).length === 0) { _%>
+      environment: {}
+      <%_ } else { _%>
+      environment: 
+        <%_ Object.keys(props.env).forEach(function(env){ _%>
+        <%= env %>: "<%= props.env[env] %>"
+        <%_ }); _%>
+      <%_ } _%>
