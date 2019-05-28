@@ -11,13 +11,15 @@ In production, how do we solve this? 2 choices:
 - Use a different subdomain for the API and the frontend, like `api.example.com` for the API and `example.com`
 - or transparently proxy it using an ingress, like nginx or caddy, so that the API is reachable by going to `exapmle.com/api` and the frontend takes the rest
 
-Now let's go back to the dev environment.
+That's production... how about dev?
 
 Let's say we choose the first method and choose a different subdomain. This means that the frontend will always have to be given the full path to the API. Check [frontend/src/index.js](./frontend/src/index.js) on line 11.
 
 This is problematic - `create-react-app` compiles to static files... this means that we'd have to [compile it differently for every environment](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables), or we would [need a server that rewrites the entry HTML with configuration](https://www.freecodecamp.org/news/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70/).
 
-Obviously the better choice is the proxy. We could use create-react-app's [built-in proxy](https://facebook.github.io/create-react-app/docs/proxying-api-requests-in-development#configuring-the-proxy-manually), which works fine since we're using create-react-app, but `devctl` was made to be agnostic. It should work with everything.
+Obviously the better choice is the proxy. We could use create-react-app's [built-in proxy](https://facebook.github.io/create-react-app/docs/proxying-api-requests-in-development#configuring-the-proxy-manually), which works fine since we're using create-react-app, but `devctl` was made to be agnostic.
+
+In this example, we'll be doing the proxy option.. but if you prefer the subdomain option, devctl can help you too.
 
 ## Let's get this running first
 
@@ -42,7 +44,7 @@ and go back to the root the project
 
 By analysing [graphql/docker-compose.yaml](./graphql/docker-compose.yaml), we can see that prisma is dependent on mysql 5.7.
 
-```lang=yaml
+```yaml
 mysql:
   image: mysql:5.7
   restart: always
@@ -81,12 +83,12 @@ If we run `devctl switch`, you should only see 1 choices, which is the mysql we 
 
 Let's take a look in these files we just generated. First, open `.devctl.yaml`
 
-```lang=yaml
+```yaml
 services:
-  - name: "mysql"
-    path: ".devctl/mysql"
-    description: "5.7"
-    notes: "Check .devctl/mysql/.devconfig.yaml for credentials and configuration"
+  - name: 'mysql'
+    path: '.devctl/mysql'
+    description: '5.7'
+    notes: 'Check .devctl/mysql/.devconfig.yaml for credentials and configuration'
 
 environment:
   - name: dev
@@ -99,21 +101,21 @@ Now, open `.devctl/mysql/.devconfig.yaml`
 
 You should see this
 
-```
+```yaml
 compose:
   default:
     mysql:
-      image: "mysql:5.7"
+      image: 'mysql:5.7'
       ports:
-        - "3306:3306"
+        - '3306:3306'
       volumes:
         - ./.devctl/data/mysql:/var/lib/mysql
       restart: always
       environment:
-        MYSQL_ROOT_PASSWORD: "prisma"
-        MYSQL_DATABASE: "prisma"
-        MYSQL_USER: "prisma"
-        MYSQL_PASSWORD: "prisma"
+        MYSQL_ROOT_PASSWORD: 'prisma'
+        MYSQL_DATABASE: 'prisma'
+        MYSQL_USER: 'prisma'
+        MYSQL_PASSWORD: 'prisma'
 ```
 
 This is oddly familiar to the one in [graphql/docker-compose.yaml](./graphql/docker-compose.yaml). The difference is that the data is under `compose.default`.
@@ -123,48 +125,48 @@ This is oddly familiar to the one in [graphql/docker-compose.yaml](./graphql/doc
 
 We can rewrite it this way, and it should still work
 
-```
+```yaml
 compose:
   dev:
     mysql:
-      image: "mysql:5.7"
+      image: 'mysql:5.7'
       ports:
-        - "3306:3306"
+        - '3306:3306'
       volumes:
         - ./.devctl/data/mysql:/var/lib/mysql
       restart: always
       environment:
-        MYSQL_ROOT_PASSWORD: "prisma"
-        MYSQL_DATABASE: "prisma"
-        MYSQL_USER: "prisma"
-        MYSQL_PASSWORD: "prisma"
+        MYSQL_ROOT_PASSWORD: 'prisma'
+        MYSQL_DATABASE: 'prisma'
+        MYSQL_USER: 'prisma'
+        MYSQL_PASSWORD: 'prisma'
 ```
 
 Or this way
 
-```
+```yaml
 compose:
   default:
     mysql:
-      image: "mysql:5.7"
+      image: 'mysql:5.7'
       ports:
-        - "3306:3306"
+        - '3306:3306'
       volumes:
         - ./.devctl/data/mysql:/var/lib/mysql
       restart: always
   dev:
     mysql:
       environment:
-        MYSQL_ROOT_PASSWORD: "prisma"
-        MYSQL_DATABASE: "prisma"
-        MYSQL_USER: "prisma"
-        MYSQL_PASSWORD: "prisma"
+        MYSQL_ROOT_PASSWORD: 'prisma'
+        MYSQL_DATABASE: 'prisma'
+        MYSQL_USER: 'prisma'
+        MYSQL_PASSWORD: 'prisma'
 ```
 
 As you can imagine, it gets merged like this
 
-```lang=js
-const finalDockerCompose = deepmerge(compose.default, compose[environment])
+```js
+const finalDockerCompose = deepmerge(compose.default, compose[environment]);
 ```
 
 After doing `devctl switch` and bringing the services up, you should be able to look at `.devctl-docker-compose.yaml`. This is where the docker-compose file gets generated, and where you can debug the output.
@@ -175,12 +177,12 @@ Okay, let's add the `graphql` service.
 
 Let's take a look again at [graphql/docker-compose.yaml](./graphql/docker-compose.yaml)
 
-```
+```yaml
 prisma:
   image: prismagraphql/prisma:1.33
   restart: always
   ports:
-  - "4466:4466"
+    - '4466:4466'
   environment:
     PRISMA_CONFIG: |
       port: 4466
@@ -199,7 +201,7 @@ prisma:
 
 Let's create a `.devconfig.yaml` inside of the `graphql` folder and write this
 
-```
+```yaml
 compose:
   default:
     prisma:
@@ -208,7 +210,7 @@ compose:
       image: prismagraphql/prisma:1.33
       restart: always
       ports:
-      - "4466:4466"
+        - '4466:4466'
       environment:
         PRISMA_CONFIG: |
           port: 4466
@@ -229,9 +231,9 @@ It's pretty much the same, except we added `link: ['mysql']` so that prisma can 
 
 Finally, let's add it to `.devctl.yaml` under `services`
 
-```
-- name: "graphql"
-  description: "Powered by Prisma"
+```yaml
+- name: 'graphql'
+  description: 'Powered by Prisma'
   notes: |
     Run these commands the first time:
         yarn graphql exec prisma deploy
@@ -247,9 +249,9 @@ For the frontend, we're not going to be running it inside a docker container. We
 
 Also add it to `.devctl.yaml`
 
-```lang=yaml
-- name: "frontend"
-  description: "Powered by create-react-app"
+```yaml
+- name: 'frontend'
+  description: 'Powered by create-react-app'
   notes: |
     To start the dev server:
         yarn frontend start
@@ -263,7 +265,7 @@ Okay so now everything is "running" but it doesn't get proxied correctly. Let's 
 
 in `.devctl.yaml` file, add root level key called `proxy` like such:
 
-```
+```yaml
 proxy:
   enabled: true
   port: 80
@@ -271,9 +273,9 @@ proxy:
 
 Now, for each service, add a proxy config array. For example, the `graphql` one looks like this:
 
-```
-- name: "graphql"
-  description: "Powered by Prisma"
+```yaml
+- name: 'graphql'
+  description: 'Powered by Prisma'
   proxy:
     - port: 4466
       protocol: http
@@ -291,9 +293,9 @@ Now, for each service, add a proxy config array. For example, the `graphql` one 
 
 The frontend one looks like this
 
-```
-- name: "frontend"
-  description: "Powered by create-react-app"
+```yaml
+- name: 'frontend'
+  description: 'Powered by create-react-app'
   proxy:
     - port: 3000
       protocol: http

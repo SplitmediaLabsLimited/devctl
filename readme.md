@@ -38,4 +38,4 @@ DevCTL decreases the onboarding time of new devs in any of our projects at Split
 
 Traditional docs are non-existent - instead, they're all in working examples in the `/examples` folder. Don't worry though, they are quite comprehensive!
 
-Clone this repository, and head to `examples/example-basic-react-prisma-mysql/readme.md`
+Clone this repository, and head to [examples/example-basic-react-prisma-mysql/readme.md](./examples/example-basic-react-prisma-mysql/readme.md)
