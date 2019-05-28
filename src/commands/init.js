@@ -101,7 +101,7 @@ module.exports = {
       )}`
     );
     print.info(
-      ` - .devctl-current.yaml ${print.colors.muted(
+      ` - .devctl-docker-compose.yaml ${print.colors.muted(
         `(This is your generated docker-compose file)`
       )}`
     );

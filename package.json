@@ -11,7 +11,6 @@
     "src",
     "LICENSE",
     "readme.md",
-    "docs",
     "bin"
   ],
   "license": "MIT",

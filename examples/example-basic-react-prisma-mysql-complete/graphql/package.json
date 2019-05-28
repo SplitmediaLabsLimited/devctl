@@ -1,0 +1,11 @@
+{
+  "name": "@example/graphql",
+  "version": "0.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "prisma-client-lib": "1.33.0"
+  },
+  "scripts": {
+    "start": "node src/script.js"
+  }
+}

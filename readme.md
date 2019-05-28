@@ -26,20 +26,16 @@ DevCTL decreases the onboarding time of new devs in any of our projects at Split
 
 ## What DevCLT is **NOT**
 
-- It is not a thick layer on docker-compose. It's a tool to switch "presets" of services dynamically. For advanced use cases, you still need to know how docker-compose and its networking components works. For simple use cases, the CLI generators should be enought to help you.
+- It is not a thick layer on docker-compose. It's a tool to switch "presets" of services. For advanced use cases, you still need to know how docker-compose and its networking components works. For simple use cases, the CLI generators should be enought to help you. **If you don't understand docker-compose, this project will most likely make it more confusing.**
 - The docker-compose files that it generates are not meant to be used in production.
 
 ## Getting Started
 
 - `yarn global add @splitmedialabs/devctl` (or `npm install -g @splitmedialabs/devctl`)
-- navigate in the root folder of your project
-- `devctl init`
-- fill the questionnaire
-- go into each microservice's folder
-- `devctl add-service`
-- when it's done, `devctl switch`
+- Check examples
 
 ## Docs:
 
-- Understanding `.devctl.yaml`
-- Understanding `.devconfig.yaml`
+Traditional docs are non-existent - instead, they're all in working examples in the `/examples` folder. Don't worry though, they are quite comprehensive!
+
+Clone this repository, and head to `examples/example-basic-react-prisma-mysql/readme.md`
