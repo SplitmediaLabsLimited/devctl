@@ -2,7 +2,15 @@ require('dotenv').config({ silent: true });
 
 const get = require('lodash.get');
 
-const { routes, proxy } = JSON.parse(process.env.DEVCTL_PROXY);
+if (!process.env.DEVCTL_PROXY) {
+  console.error('DEVCTL_PROXY env variable is not set');
+  process.exit(1);
+}
+
+const parsed = JSON.parse(process.env.DEVCTL_PROXY);
+
+const routes = get(parsed, 'routes', {});
+const proxy = get(parsed, 'proxy', {});
 
 if (!proxy.enabled) {
   console.log('Proxy not enabled');
@@ -41,19 +49,16 @@ app.use(
 
 if (get(proxy, 'ssl.key') && get(proxy, 'ssl.cert')) {
   const ssl = get(proxy, 'ssl');
-  const port = get(proxy, 'port', 443);
 
   require('https')
     .createServer(ssl, app)
-    .listen(443, _ => {
-      console.log(`proxy started on ${port}`);
-    });
-} else {
-  const port = get(proxy, 'port', 80);
-
-  require('http')
-    .createServer(app)
-    .listen(80, _ => {
-      console.log(`proxy started on ${port}`);
+    .listen(get(proxy, 'port', 443), _ => {
+      console.log(`proxy started on ${get(proxy, 'port', 443)}`);
     });
 }
+
+require('http')
+  .createServer(app)
+  .listen(get(proxy, 'port', 80), _ => {
+    console.log(`proxy started on ${get(proxy, 'port', 80)}`);
+  });
