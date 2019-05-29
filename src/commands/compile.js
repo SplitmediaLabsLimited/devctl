@@ -111,6 +111,6 @@ module.exports = {
     await filesystem.write(get('paths.compose'), YAML.dump(finalDockerCompose));
 
     // next step!
-    // return require('../cli').run('up');
+    return require('../cli').run('up');
   },
 };
