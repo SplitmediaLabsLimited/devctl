@@ -8,7 +8,7 @@ SERVICE_NAME=devctl-proxy
 TAG_PREFIX=splitmedialabs
 
 if [[ -z "${COMMIT_SHA:-}" ]] ; then
-  COMMIT_SHA="dev-test"
+  COMMIT_SHA="latest"
 fi
 
 TAG=$TAG_PREFIX/$SERVICE_NAME:$COMMIT_SHA

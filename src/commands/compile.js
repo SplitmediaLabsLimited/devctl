@@ -84,25 +84,30 @@ module.exports = {
         );
       }
 
-      const port = (function() {
-        if (get('proxy.ssl.key') && get('proxy.ssl.cert')) {
-          return get('proxy.port', 443);
-        }
-
-        return get('proxy.port', 80);
-      })();
+      const httpPort = get('proxy.httpPort', 80);
 
       const environment = {
-        DEVCTL_PROXY: JSON.stringify({
-          routes,
-          proxy,
-        }),
+        DEVCTL_PROXY: JSON.stringify(
+          {
+            routes,
+            proxy,
+          },
+          null,
+          2
+        ),
       };
 
+      const ports = [`${httpPort}:${httpPort}`];
+
+      if (get('proxy.ssl.cert') && get('proxy.ssl.key')) {
+        const httpsPort = get('proxy.httpsPort', 443);
+        ports.push(`${httpsPort}:${httpsPort}`);
+      }
+
       finalDockerCompose['devctl-proxy'] = {
-        image: 'splitmedialabs/devctl-proxy:dev-test',
+        image: 'splitmedialabs/devctl-proxy:latest',
         restart: 'always',
-        ports: [`${port}:${port}`],
+        ports,
         environment,
       };
     }

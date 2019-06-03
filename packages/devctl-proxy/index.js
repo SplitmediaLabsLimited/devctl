@@ -43,7 +43,8 @@ app.use(
     router,
     changeOrigin: true,
     ws: true,
-    logLevel: 'warn',
+    xfwd: false,
+    logLevel: 'debug',
   })
 );
 
@@ -52,13 +53,13 @@ if (get(proxy, 'ssl.key') && get(proxy, 'ssl.cert')) {
 
   require('https')
     .createServer(ssl, app)
-    .listen(get(proxy, 'port', 443), _ => {
-      console.log(`proxy started on ${get(proxy, 'port', 443)}`);
+    .listen(get(proxy, 'httpsPort', 443), _ => {
+      console.log(`proxy started on ${get(proxy, 'httpsPort', 443)}`);
     });
 }
 
 require('http')
   .createServer(app)
-  .listen(get(proxy, 'port', 80), _ => {
-    console.log(`proxy started on ${get(proxy, 'port', 80)}`);
+  .listen(get(proxy, 'httpPort', 80), _ => {
+    console.log(`proxy started on ${get(proxy, 'httpPort', 80)}`);
   });

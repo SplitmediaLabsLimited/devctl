@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Easily start developing in monorepos with docker-compose",
   "bin": {
     "devctl": "bin/devctl"
