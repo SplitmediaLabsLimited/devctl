@@ -20,7 +20,7 @@ async function writeComposeFileToHomeDir(compose) {
 
 function createDockerComposeCommand(compose, async = true) {
   return async ({ cmd, msg, options }) => {
-    const command = `docker-compose -f ${compose} ${cmd}`;
+    const command = `docker-compose -f "${compose}" ${cmd}`;
 
     if (async) {
       const spinner = msg && print.spin(msg);
