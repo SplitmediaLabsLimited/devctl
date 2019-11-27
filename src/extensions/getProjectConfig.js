@@ -1,4 +1,4 @@
-const cosmic = require('cosmiconfig');
+const { cosmiconfig } = require('cosmiconfig');
 const { resolve, dirname } = require('path');
 const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
@@ -8,7 +8,7 @@ const { readYaml } = require('../utils/yaml');
 module.exports = async toolbox => {
   // reads the config
   toolbox.getProjectConfig = async () => {
-    const search = await cosmic('devctl', {
+    const search = await cosmiconfig('devctl', {
       searchPlaces: [
         '.devctl.json',
         '.devctl.yaml',

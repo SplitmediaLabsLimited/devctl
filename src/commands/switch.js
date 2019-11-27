@@ -24,6 +24,44 @@ async function askEnvironment(project) {
   });
 }
 
+async function askServices(project) {
+  const allChoices = Object.values(project.services)
+    .map(service => ({
+      name: service.name,
+      message: service.name,
+      hint: service.description,
+      value: service.name,
+      category: service.category,
+    }))
+    .sort(function(a, b) {
+      const keyA = a.name.toLowerCase();
+      const keyB = b.name.toLowerCase();
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    });
+
+  const choices = allChoices.filter(c => c.category !== 'always');
+  const choicesArray = choices.map(c => c.value);
+  const always = allChoices
+    .filter(c => c.category === 'always')
+    .map(c => c.value);
+
+  const initial = get(project, 'current.services', []).filter(c =>
+    choicesArray.includes(c)
+  );
+
+  const { services } = await prompt.ask({
+    type: 'multiselect',
+    name: 'services',
+    message: 'Which services do you want to work on? (lol)',
+    choices,
+    initial,
+  });
+
+  return { services: [...services, ...always] };
+}
+
 async function saveCurrentConfig(path, config) {
   return filesystem.write(path, YAML.dump(config));
 }
@@ -34,18 +72,7 @@ module.exports = {
   run: async toolbox => {
     const project = toolbox.config;
 
-    const { services } = await prompt.ask({
-      type: 'multiselect',
-      name: 'services',
-      message: 'Which services do you want to work on?',
-      choices: Object.values(project.services).map(service => ({
-        name: service.name,
-        message: service.name,
-        hint: service.description,
-        value: service.name,
-      })),
-      initial: get(project, 'current.services', []),
-    });
+    const { services } = await askServices(project);
 
     const { environment } = await askEnvironment(project);
 

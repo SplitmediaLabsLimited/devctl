@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const cosmic = require('cosmiconfig');
+const { cosmiconfig } = require('cosmiconfig');
 const { resolve } = require('path');
 const get = require('lodash/get');
 const merge = require('lodash/merge');
@@ -19,7 +19,7 @@ async function resolveService(project) {
 
       service.path = resolve(project.cwd, service.path);
 
-      const search = await cosmic('devconfig', {
+      const search = await cosmiconfig('devconfig', {
         searchPlaces: [
           '.devconfig.yaml',
           '.devconfig.yml',

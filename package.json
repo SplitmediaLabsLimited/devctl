@@ -1,6 +1,7 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "1.0.2",
+  "version": "2.0.0",
+  "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "bin": {
     "devctl": "bin/devctl"
@@ -12,22 +13,30 @@
     "readme.md",
     "bin"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SplitmediaLabsLimited/devctl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SplitmediaLabsLimited/devctl/issues"
+  },
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.4",
-    "dockerode": "^2.5.8",
+    "bluebird": "^3.7.1",
+    "cosmiconfig": "^6.0.0",
+    "dockerode": "^3.0.2",
     "get-port": "^5.0.0",
-    "gluegun": "^3.2.3",
+    "gluegun": "^4.1.2",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-jest": "^22.6.4",
-    "eslint-plugin-prettier": "^3.1.0",
-    "jest": "^23.6.0",
-    "prettier": "^1.12.1"
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-jest": "^23.0.5",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1"
   }
 }
