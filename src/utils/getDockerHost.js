@@ -47,14 +47,14 @@ function startServer(port) {
 }
 
 async function isIpReachableInsideDocker(ip, port) {
-  const container = await docker.run(DOCKER_CURL, [
+  const [output] = await docker.run(DOCKER_CURL, [
     'curl',
     '-m',
     '1',
     `http://${ip}:${port}`,
   ]);
 
-  return container.output.StatusCode === 0;
+  return get(output, 'StatusCode') === 0;
 }
 
 async function getReachableIP() {
@@ -84,23 +84,27 @@ async function getReachableIP() {
 
   // check the list, and ping inside of docker to see if it's reachable
   const ips = await Promise.map(listDeviceIps(), async ip => {
-    ip.reachable = await isIpReachableInsideDocker(ip.address, port);
+    const reachable = await isIpReachableInsideDocker(ip.address, port);
 
-    return ip;
+    return {
+      ...ip,
+      reachable,
+    };
   }).filter(ip => ip.reachable);
 
   spinner2.succeed();
   server.close();
 
+  const ip = get(ips, [0]);
+  const address = get(ip, 'address');
+
   print.info(
     `${print.colors.success(
       '✔'
-    )} IP Reachable from inside Docker found: ${print.colors.warning(
-      ips[0].address
-    )}.`
+    )} IP Reachable from inside Docker found: ${print.colors.warning(address)}.`
   );
 
-  return ips[0];
+  return ip;
 }
 
 async function getDockerHost(current) {

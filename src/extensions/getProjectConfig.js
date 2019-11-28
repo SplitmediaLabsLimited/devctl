@@ -41,7 +41,11 @@ module.exports = async toolbox => {
     project.services = keyBy(project.services, 'name');
     project.environment = keyBy(project.environment, 'name');
 
-    project.current = await readYaml(paths.current);
+    try {
+      project.current = await readYaml(paths.current);
+    } catch (err) {
+      project.current = {};
+    }
 
     return project;
   };
