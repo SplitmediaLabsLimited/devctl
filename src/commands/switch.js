@@ -54,7 +54,7 @@ async function askServices(project) {
   const { services } = await prompt.ask({
     type: 'multiselect',
     name: 'services',
-    message: 'Which services do you want to work on? (lol)',
+    message: 'Which services do you want to work on?',
     choices,
     initial,
   });
