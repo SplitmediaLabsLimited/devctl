@@ -4,6 +4,8 @@ const { filesystem } = require('gluegun');
 const { stringifyToEnv, parseEnv } = require('../utils/dotenv');
 const resolveService = require('../utils/resolveService');
 
+const flatten = arr => [].concat(...arr).filter(a => !!a);
+
 module.exports = {
   name: 'compile',
   hidden: true,
@@ -47,6 +49,41 @@ module.exports = {
 
       await filesystem.write(dotenvPath, stringifyToEnv(finalDotEnv));
     });
+
+    // scripts
+    const afterSwitch = await Promise.map(services, async service => {
+      const { afterSwitch = {}, name } = service;
+      const scripts = Object.values(afterSwitch);
+      if (scripts.length === 0) {
+        return null;
+      }
+
+      return {
+        name,
+        scripts,
+      };
+    });
+
+    const start = await Promise.map(services, async service => {
+      const { start = {}, name } = service;
+      const scripts = Object.values(start);
+      if (scripts.length === 0) {
+        return null;
+      }
+
+      return {
+        name,
+        scripts,
+      };
+    });
+
+    await filesystem.write(
+      get('paths.scripts'),
+      YAML.dump({
+        afterSwitch: flatten(afterSwitch),
+        start: flatten(start),
+      })
+    );
 
     if (get('proxy.enabled', false)) {
       // the user has enabled the proxy.

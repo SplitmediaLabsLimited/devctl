@@ -30,13 +30,16 @@ async function resolveService(project) {
 
       if (search === null) {
         print.info(
-          `${print.colors.error(
-            `error`
+          `${print.colors.info(
+            `info`
           )} cannot find devconfig file for service ${print.colors.warning(
             svcName
-          )}`
+          )}, using empty default`
         );
-        process.exit(1);
+
+        return service;
+
+        // process.exit(1);
       }
 
       // resolve each service

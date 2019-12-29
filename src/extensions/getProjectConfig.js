@@ -33,6 +33,7 @@ module.exports = async toolbox => {
       project: search.filepath,
       compose: resolve(cwd, '.devctl-docker-compose.yaml'),
       current: resolve(cwd, '.devctl-current.yaml'),
+      scripts: resolve(cwd, '.devctl-scripts.yaml'),
     };
 
     const project = search.config;

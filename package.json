@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "bin": {
@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.7.1",
+    "concurrently": "^5.0.2",
     "cosmiconfig": "^6.0.0",
     "dockerode": "^3.0.2",
     "get-port": "^5.0.0",
