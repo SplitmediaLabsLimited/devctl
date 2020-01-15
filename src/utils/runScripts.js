@@ -27,17 +27,25 @@ async function readScripts(path) {
 async function runScripts(allScripts, key, concurrent) {
   const scripts = get(allScripts, key, []);
 
-  print.spin(`Running ${print.colors.warning(key)} scripts`).stopAndPersist();
-
   if (concurrent) {
     const concurrentScripts = scripts.map(({ name, scripts }) => {
       const [command] = scripts;
       return { command, name };
     });
 
+    if (concurrentScripts.length === 0) {
+      return;
+    }
+
+    print.spin(`Running ${print.colors.warning(key)} scripts`).stopAndPersist();
+
     await concurrently(concurrentScripts);
   } else {
     await Promise.map(scripts, async ({ name, scripts }) => {
+      print
+        .spin(`Running ${print.colors.warning(key)} scripts`)
+        .stopAndPersist();
+
       await Promise.map(scripts, async cmd => {
         await exec({
           cmd,
