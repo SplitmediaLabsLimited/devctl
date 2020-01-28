@@ -1,5 +1,7 @@
 # DevCTL
 
+[![asciicast](https://asciinema.org/a/AXypjq8FmtdsmCFLWwHPoOL0f.svg)](https://asciinema.org/a/AXypjq8FmtdsmCFLWwHPoOL0f)
+
 DevCTL is a CLI app designed to:
 
 - start docker-compose presets for easier onboarding and project switching
