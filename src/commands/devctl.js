@@ -3,7 +3,7 @@ const { resolve } = require('path');
 
 function getCustomCommands(toolbox) {
   const { get, print } = toolbox;
-  const commands = get('commands');
+  const commands = get('commands', []);
 
   print.newline();
   print.info('Custom commands: ');
