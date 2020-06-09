@@ -7,9 +7,11 @@ module.exports = {
   run: async toolbox => {
     const { config } = toolbox;
 
+    const services = get(config, 'current.services', []);
+
     const table = [
       ['Service', 'Notes'],
-      ...config.current.services.map(svc => {
+      ...services.map(svc => {
         const service = config.services[svc];
 
         const note = get(service, 'notes', '')

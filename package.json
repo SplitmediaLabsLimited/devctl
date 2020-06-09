@@ -29,7 +29,8 @@
     "get-port": "^5.0.0",
     "gluegun": "^4.1.2",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "node_modules-path": "^2.0.5"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
