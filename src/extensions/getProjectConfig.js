@@ -54,6 +54,7 @@ module.exports = async toolbox => {
   const projectConfig = await toolbox.getProjectConfig();
 
   toolbox.config = {
+    ...toolbox.config,
     ...projectConfig,
   };
 
