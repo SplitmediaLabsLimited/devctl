@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const YAML = require('js-yaml');
 const { filesystem } = require('gluegun');
+const deepmerge = require('deepmerge');
 const { stringifyToEnv, parseEnv } = require('../utils/dotenv');
 const resolveService = require('../utils/resolveService');
 
@@ -22,10 +23,7 @@ module.exports = {
       const { compose, dotenv, path } = service;
 
       // compile the final docker-compose
-      finalDockerCompose = {
-        ...finalDockerCompose,
-        ...compose,
-      };
+      finalDockerCompose = deepmerge(finalDockerCompose, compose);
 
       if (!dotenv) {
         return;
