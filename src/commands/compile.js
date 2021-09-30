@@ -23,7 +23,7 @@ module.exports = {
       const { compose, dotenv, path } = service;
 
       // compile the final docker-compose
-      finalDockerCompose = deepmerge(finalDockerCompose, compose);
+      finalDockerCompose = deepmerge(finalDockerCompose, compose || {});
 
       if (!dotenv) {
         return;
