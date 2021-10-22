@@ -148,7 +148,12 @@ module.exports = {
     }
 
     // write the final docker-compose to a file in the cwd
-    await filesystem.write(get('paths.compose'), YAML.dump(finalDockerCompose));
+    await filesystem.write(
+      get('paths.compose'),
+      YAML.dump({
+        services: finalDockerCompose,
+      })
+    );
 
     // next step!
     return require('../cli').run('up');
