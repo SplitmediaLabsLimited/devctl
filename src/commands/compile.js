@@ -83,6 +83,19 @@ module.exports = {
       })
     );
 
+    // doppler
+    const doppler = await Promise.map(services, async service => {
+      const { doppler, path } = service;
+
+      if (!doppler) {
+        return null;
+      }
+
+      return { cwd: path, doppler };
+    });
+
+    await filesystem.write(get('paths.doppler'), YAML.dump(flatten(doppler)));
+
     if (get('proxy.enabled', false)) {
       // the user has enabled the proxy.
 

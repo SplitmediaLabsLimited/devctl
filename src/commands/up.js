@@ -7,7 +7,11 @@ const {
   writeComposeFileToHomeDir,
 } = require('../utils/dockerCompose');
 
+const dopplerSetup = require('../utils/doppler-setup');
+
 const { readScripts, runScripts } = require('../utils/runScripts');
+
+const { readYaml } = require('../utils/yaml');
 
 module.exports = {
   name: 'up',
@@ -23,6 +27,9 @@ module.exports = {
 
     const allScripts = await readScripts(get(config, 'paths.scripts'));
     await runScripts(allScripts, 'afterSwitch', false);
+
+    const dopplers = await readYaml(get(config, 'paths.doppler'));
+    await dopplerSetup(dopplers);
 
     // shut down first!
     await require('../cli').run('down');

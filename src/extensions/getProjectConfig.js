@@ -34,6 +34,7 @@ module.exports = async toolbox => {
       compose: resolve(cwd, '.devctl-docker-compose.yaml'),
       current: resolve(cwd, '.devctl-current.yaml'),
       scripts: resolve(cwd, '.devctl-scripts.yaml'),
+      doppler: resolve(cwd, '.devctl-doppler.yaml'),
     };
 
     const project = search.config;
