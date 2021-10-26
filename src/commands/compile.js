@@ -147,12 +147,15 @@ module.exports = {
       };
     }
 
+    // Check if we need to add a services key.
+    const dockerComposeToWrite = finalDockerCompose.services
+      ? finalDockerCompose
+      : { services: finalDockerCompose };
+
     // write the final docker-compose to a file in the cwd
     await filesystem.write(
       get('paths.compose'),
-      YAML.dump({
-        services: finalDockerCompose,
-      })
+      YAML.dump(dockerComposeToWrite)
     );
 
     // next step!
