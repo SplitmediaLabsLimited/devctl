@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "bin": {
@@ -41,5 +41,9 @@
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
     "prettier": "^1.19.1"
+  },
+  "volta": {
+    "node": "18.2.0",
+    "yarn": "1.18.0"
   }
 }

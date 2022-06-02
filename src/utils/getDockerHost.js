@@ -16,7 +16,9 @@ function listDeviceIps() {
     Object.keys(interfaces).map(interfaceName =>
       interfaces[interfaceName]
         // filter ipv6 and localhost
-        .filter(i => i.family === 'IPv4' && i.internal === false)
+        .filter(
+          i => (i.family === 'IPv4' || i.family === 4) && i.internal === false
+        )
         // discard information we don't need
         .map(i => ({
           address: i.address,
@@ -84,6 +86,7 @@ async function getReachableIP() {
 
   // check the list, and ping inside of docker to see if it's reachable
   const ips = await Promise.map(listDeviceIps(), async ip => {
+    console.log({ ip });
     const reachable = await isIpReachableInsideDocker(ip.address, port);
 
     return {
