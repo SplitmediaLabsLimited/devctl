@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "bin": {
@@ -30,8 +30,7 @@
     "get-port": "^5.0.0",
     "gluegun": "^4.1.2",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
-    "node_modules-path": "^2.0.5"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",

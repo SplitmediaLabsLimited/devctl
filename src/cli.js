@@ -1,6 +1,5 @@
 const { build } = require('gluegun');
-const { resolve } = require('path');
-const node_modules = require('node_modules-path');
+const node_modules = require('./node-module-path');
 
 /**
  * Create the cli and kick it off
