@@ -5,8 +5,9 @@ const flatten = require('lodash/flatten');
 const Docker = require('dockerode');
 const { system, print } = require('gluegun');
 const get = require('lodash/get');
+const { fstat, existsSync } = require('fs');
+const path = require('path');
 
-const docker = new Docker();
 const DOCKER_CURL = 'spotify/alpine:latest';
 
 function listDeviceIps() {
@@ -49,6 +50,20 @@ function startServer(port) {
 }
 
 async function isIpReachableInsideDocker(ip, port) {
+  const socketPath = function() {
+    if (existsSync('/var/run/docker.sock') && fstat('/var/run/docker.sock')) {
+      return '/var/run/docker.sock';
+    }
+
+    const home = path.join(os.homedir(), '.docker', 'run', 'docker.sock');
+
+    if (existsSync(home) && fstat(home)) {
+      return home;
+    }
+  };
+
+  const docker = new Docker({ socketPath });
+
   const [output] = await docker.run(DOCKER_CURL, [
     'curl',
     '-m',
