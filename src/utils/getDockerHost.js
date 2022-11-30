@@ -51,13 +51,13 @@ function startServer(port) {
 
 async function isIpReachableInsideDocker(ip, port) {
   const socketPath = (function() {
-    if (existsSync('/var/run/docker.sock') && fstat('/var/run/docker.sock')) {
+    if (existsSync('/var/run/docker.sock')) {
       return '/var/run/docker.sock';
     }
 
     const home = path.join(os.homedir(), '.docker', 'run', 'docker.sock');
 
-    if (existsSync(home) && fstat(home)) {
+    if (existsSync(home)) {
       return home;
     }
   })();
