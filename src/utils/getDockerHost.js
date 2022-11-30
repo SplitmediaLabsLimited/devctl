@@ -50,7 +50,7 @@ function startServer(port) {
 }
 
 async function isIpReachableInsideDocker(ip, port) {
-  const socketPath = function() {
+  const socketPath = (function() {
     if (existsSync('/var/run/docker.sock') && fstat('/var/run/docker.sock')) {
       return '/var/run/docker.sock';
     }
@@ -60,7 +60,7 @@ async function isIpReachableInsideDocker(ip, port) {
     if (existsSync(home) && fstat(home)) {
       return home;
     }
-  };
+  })();
 
   const docker = new Docker({ socketPath });
 
