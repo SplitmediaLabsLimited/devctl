@@ -2,7 +2,7 @@ const { cosmiconfig } = require('cosmiconfig');
 const { resolve, dirname } = require('path');
 const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
-const { print } = require('gluegun');
+const { print } = require('@cipherstash/gluegun');
 const { readYaml } = require('../utils/yaml');
 
 module.exports = async toolbox => {

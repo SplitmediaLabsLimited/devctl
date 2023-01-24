@@ -1,4 +1,4 @@
-const { print } = require('gluegun');
+const { print } = require('@cipherstash/gluegun');
 const { createDockerComposeCommand } = require('../utils/dockerCompose');
 const { readYaml } = require('../utils/yaml');
 

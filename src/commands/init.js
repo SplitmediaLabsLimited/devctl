@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 const { dirname } = require('path');
-const { print, prompt } = require('gluegun');
+const { print, prompt } = require('@cipherstash/gluegun');
 
 const databases = require('../utils/init-databases');
 

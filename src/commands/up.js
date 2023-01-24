@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 
-const { print } = require('gluegun');
+const { print } = require('@cipherstash/gluegun');
 
 const {
   createDockerComposeCommand,
@@ -16,12 +16,14 @@ module.exports = {
     const { config } = toolbox;
 
     const compose = get(config, 'paths.compose');
+    const allScripts = await readScripts(get(config, 'paths.scripts'));
+
+    await runScripts(allScripts, 'beforeSwitch', false);
 
     if (!compose) {
       return require('../cli').run('switch');
     }
 
-    const allScripts = await readScripts(get(config, 'paths.scripts'));
     await runScripts(allScripts, 'afterSwitch', false);
 
     // shut down first!

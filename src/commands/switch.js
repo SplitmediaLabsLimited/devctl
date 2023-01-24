@@ -1,5 +1,5 @@
 const YAML = require('js-yaml');
-const { filesystem, prompt } = require('gluegun');
+const { filesystem, prompt } = require('@cipherstash/gluegun');
 const get = require('lodash/get');
 const getDockerHost = require('../utils/getDockerHost');
 
@@ -85,7 +85,6 @@ module.exports = {
     };
 
     await saveCurrentConfig(project.paths.current, currentConfig);
-
     return require('../cli').run('compile');
   },
 };

@@ -1,5 +1,5 @@
 const YAML = require('js-yaml');
-const { filesystem } = require('gluegun');
+const { filesystem } = require('@cipherstash/gluegun');
 
 async function readYaml(path) {
   const raw = await filesystem.read(path);

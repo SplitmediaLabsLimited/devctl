@@ -3,7 +3,7 @@ const { cosmiconfig } = require('cosmiconfig');
 const { resolve } = require('path');
 const get = require('lodash/get');
 const merge = require('lodash/merge');
-const { print } = require('gluegun');
+const { print } = require('@cipherstash/gluegun');
 
 // generate each services' docker compose config
 async function resolveService(project) {

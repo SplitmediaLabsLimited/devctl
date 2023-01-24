@@ -1,4 +1,4 @@
-const { filesystem, system, print } = require('gluegun');
+const { filesystem, system, print } = require('@cipherstash/gluegun');
 const homedir = require('os').homedir();
 const { execSync } = require('child_process');
 

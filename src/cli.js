@@ -1,5 +1,5 @@
-const { build } = require('gluegun');
-const node_modules = require('./node-module-path');
+const { build } = require('@cipherstash/gluegun');
+const node_modules = require('node_modules-path');
 
 /**
  * Create the cli and kick it off

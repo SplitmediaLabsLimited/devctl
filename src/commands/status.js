@@ -1,4 +1,4 @@
-const { print } = require('gluegun');
+const { print } = require('@cipherstash/gluegun');
 const get = require('lodash/get');
 
 module.exports = {

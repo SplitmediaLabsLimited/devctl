@@ -1,9 +1,10 @@
 const Promise = require('bluebird');
 const YAML = require('js-yaml');
-const { filesystem } = require('gluegun');
+const { filesystem } = require('@cipherstash/gluegun');
 const deepmerge = require('deepmerge');
 const { stringifyToEnv, parseEnv } = require('../utils/dotenv');
 const resolveService = require('../utils/resolveService');
+const getSecrets = require('../utils/getSecrets');
 
 const flatten = arr => [].concat(...arr).filter(a => !!a);
 
@@ -20,7 +21,9 @@ module.exports = {
 
     let finalDockerCompose = {};
     await Promise.map(services, async service => {
-      const { compose, dotenv, path } = service;
+      const { secrets, compose, dotenv, path } = service;
+
+      const resolvedSecrets = getSecrets(secrets);
 
       // compile the final docker-compose
       finalDockerCompose = deepmerge(finalDockerCompose, compose || {});

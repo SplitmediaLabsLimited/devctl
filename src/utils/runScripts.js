@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 const Promise = require('bluebird');
-const { system, print } = require('gluegun');
+const { system, print } = require('@cipherstash/gluegun');
 const concurrently = require('concurrently');
 const { readYaml } = require('./yaml');
 
@@ -25,6 +25,7 @@ async function readScripts(path) {
 }
 
 async function runScripts(allScripts, key, concurrent) {
+  console.log('key :>> ', key);
   const scripts = get(allScripts, key, []);
 
   if (concurrent) {
