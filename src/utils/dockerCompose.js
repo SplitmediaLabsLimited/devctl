@@ -27,6 +27,7 @@ function createDockerComposeCommand(compose, async = true) {
       try {
         const output = await system.run(command);
         msg && spinner.succeed();
+
         return output;
       } catch (err) {
         msg && spinner.fail(err.stderr);

@@ -33,5 +33,7 @@ module.exports = {
       msg: 'Removing orphans container',
       cmd: 'down --remove-orphans',
     });
+
+    return;
   },
 };

@@ -31,5 +31,6 @@ module.exports = {
     ];
 
     print.table(table, { format: 'lean' });
+    return;
   },
 };

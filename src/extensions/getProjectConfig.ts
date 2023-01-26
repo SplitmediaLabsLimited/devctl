@@ -1,13 +1,16 @@
+import DevctlConfig from '../types/config.mjs';
+
 const { cosmiconfig } = require('cosmiconfig');
 const { resolve, dirname } = require('path');
 const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
-const { print } = require('@cipherstash/gluegun');
 const { readYaml } = require('../utils/yaml');
 
+
 module.exports = async toolbox => {
+  const { print } = toolbox;
   // reads the config
-  toolbox.getProjectConfig = async () => {
+  toolbox.getProjectConfig = async (): Promise<DevctlConfig> => {
     const search = await cosmiconfig('devctl', {
       searchPlaces: [
         '.devctl.json',
@@ -34,6 +37,7 @@ module.exports = async toolbox => {
       compose: resolve(cwd, '.devctl-docker-compose.yaml'),
       current: resolve(cwd, '.devctl-current.yaml'),
       scripts: resolve(cwd, '.devctl-scripts.yaml'),
+      secrets: resolve(cwd, '.devctl-secrets.yaml'),
     };
 
     const project = search.config;
@@ -51,7 +55,7 @@ module.exports = async toolbox => {
     return project;
   };
 
-  const projectConfig = await toolbox.getProjectConfig();
+  const projectConfig: DevctlConfig = await toolbox.getProjectConfig();
 
   toolbox.config = {
     ...toolbox.config,

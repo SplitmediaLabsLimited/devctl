@@ -14,13 +14,13 @@ module.exports = {
   description: `Builds, creates, starts, and attaches to containers for a service`,
   run: async toolbox => {
     const { config } = toolbox;
-
     const compose = get(config, 'paths.compose');
     const allScripts = await readScripts(get(config, 'paths.scripts'));
 
     await runScripts(allScripts, 'beforeSwitch', false);
 
     if (!compose) {
+      console.log('compose :>> ', compose);
       return require('../cli').run('switch');
     }
 
@@ -44,8 +44,10 @@ module.exports = {
     });
 
     // show the status, but we're not done!
-    require('../cli').run('status');
+    await require('../cli').run('status');
 
     await runScripts(allScripts, 'start', true);
+
+    return;
   },
 };

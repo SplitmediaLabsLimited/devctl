@@ -25,7 +25,6 @@ async function readScripts(path) {
 }
 
 async function runScripts(allScripts, key, concurrent) {
-  console.log('key :>> ', key);
   const scripts = get(allScripts, key, []);
 
   if (concurrent) {
@@ -33,13 +32,11 @@ async function runScripts(allScripts, key, concurrent) {
       const [command] = scripts;
       return { command, name };
     });
-
     if (concurrentScripts.length === 0) {
       return;
     }
 
     print.spin(`Running ${print.colors.warning(key)} scripts`).stopAndPersist();
-
     await concurrently(concurrentScripts);
   } else {
     await Promise.map(scripts, async ({ name, scripts }) => {
@@ -55,6 +52,7 @@ async function runScripts(allScripts, key, concurrent) {
       });
     });
   }
+  return;
 }
 
 module.exports = {

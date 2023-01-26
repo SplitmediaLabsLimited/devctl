@@ -59,5 +59,7 @@ module.exports = {
         stdio: 'inherit',
       },
     });
+
+    return;
   },
 };

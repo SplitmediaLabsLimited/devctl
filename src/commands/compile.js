@@ -4,7 +4,6 @@ const { filesystem } = require('@cipherstash/gluegun');
 const deepmerge = require('deepmerge');
 const { stringifyToEnv, parseEnv } = require('../utils/dotenv');
 const resolveService = require('../utils/resolveService');
-const getSecrets = require('../utils/getSecrets');
 
 const flatten = arr => [].concat(...arr).filter(a => !!a);
 
@@ -13,17 +12,16 @@ module.exports = {
   hidden: true,
   run: async ({ config, get }) => {
     if (!config.current) {
-      return require('../cli').run('switch');
+      return require('../cli').run('switch-current');
     }
 
     // expand services by reading each services' config
     const services = await resolveService(config);
 
     let finalDockerCompose = {};
-    await Promise.map(services, async service => {
-      const { secrets, compose, dotenv, path } = service;
 
-      const resolvedSecrets = getSecrets(secrets);
+    await Promise.map(services, async service => {
+      const { compose, dotenv, path } = service;
 
       // compile the final docker-compose
       finalDockerCompose = deepmerge(finalDockerCompose, compose || {});
@@ -162,6 +160,7 @@ module.exports = {
     );
 
     // next step!
-    return require('../cli').run('up');
+    await require('../cli').run('up');
+    return;
   },
 };

@@ -67,7 +67,8 @@ async function saveCurrentConfig(path, config) {
 }
 
 module.exports = {
-  name: 'switch',
+  name: 'switch-current',
+  hidden: true,
   description: `Switch services and/or environment`,
   run: async toolbox => {
     const project = toolbox.config;
@@ -84,11 +85,6 @@ module.exports = {
       dockerhost,
     };
 
-    await saveCurrentConfig(project.paths.current, currentConfig);
-
-    await require('../cli').run('compile');
-
-    process.exit(0);
-    return;
+    return saveCurrentConfig(project.paths.current, currentConfig);
   },
 };

@@ -56,5 +56,7 @@ module.exports = {
     const reqPath = resolve(cwd, command.handler);
 
     require(reqPath)(toolbox);
+
+    return;
   },
 };
