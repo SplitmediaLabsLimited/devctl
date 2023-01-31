@@ -45,8 +45,14 @@ module.exports = {
       finalDotEnv = {
         ...finalDotEnv,
         ...dotenv['default'],
-        ...dotenv[current.environment],
       };
+
+      if (current.environment in dotenv) {
+        finalDotEnv = {
+          ...finalDotEnv,
+          ...dotenv[current.environment],
+        };
+      }
 
       await filesystem.write(dotenvPath, stringifyToEnv(finalDotEnv));
     });
