@@ -74,7 +74,7 @@ module.exports = {
 
     const populatedSecrets = {};
 
-    await Bluebird.forEach(secrets, async secret => {
+    await Bluebird.map(secrets, async secret => {
       const { provider, prefix } = secret;
       if (provider == 'vault') {
         const { config, entries, files } = secret as VaultSecretsEntry;
@@ -138,6 +138,7 @@ module.exports = {
 
       filesystem.write(config.paths.secrets, populatedSecrets);
     });
+
     return;
   },
 };
