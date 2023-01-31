@@ -101,7 +101,6 @@ async function getReachableIP() {
 
   // check the list, and ping inside of docker to see if it's reachable
   const ips = await Promise.map(listDeviceIps(), async ip => {
-    console.log({ ip });
     const reachable = await isIpReachableInsideDocker(ip.address, port);
 
     return {

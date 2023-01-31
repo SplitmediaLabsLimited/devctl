@@ -15,6 +15,7 @@ module.exports = {
       return require('../cli').run('switch-current');
     }
 
+    const { current } = config;
     // expand services by reading each services' config
     const services = await resolveService(config);
 
@@ -43,7 +44,8 @@ module.exports = {
 
       finalDotEnv = {
         ...finalDotEnv,
-        ...dotenv,
+        ...dotenv['default'],
+        ...dotenv[current.environment],
       };
 
       await filesystem.write(dotenvPath, stringifyToEnv(finalDotEnv));

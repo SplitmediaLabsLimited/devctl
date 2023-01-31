@@ -52,6 +52,12 @@ module.exports = async toolbox => {
       project.current = {};
     }
 
+    try {
+      project.secrets = await readYaml(paths.secrets);
+    } catch (err) {
+      project.secrets = {};
+    }
+
     return project;
   };
 
