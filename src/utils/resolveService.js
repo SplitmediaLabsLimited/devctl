@@ -2,8 +2,8 @@ const Promise = require('bluebird');
 const { cosmiconfig } = require('cosmiconfig');
 const { resolve } = require('path');
 const get = require('lodash/get');
-const merge = require('lodash/merge');
 const { print } = require('@cipherstash/gluegun');
+const deepmerge = require('deepmerge');
 
 // generate each services' docker compose config
 async function resolveService(project) {
@@ -46,21 +46,19 @@ async function resolveService(project) {
       // resolve each service
       await Promise.map(Object.keys(search.config), async keyName => {
         const config = search.config[keyName];
-        console.log('typeof config :>> ', typeof config);
         // if it's a function, pass the whole project config a
         if (typeof config === 'function') {
-          console.log('config :>> ', config);
           service[keyName] = await config(project.current, project);
           return;
         }
 
         // if it reaches here, it's a YAML or JSON
         // we're going to merge stuff based on environments
-
         const defaultConfig = get(config, 'default', {});
         const envConfig = get(config, [project.current.environment], {});
 
-        service[keyName] = merge(defaultConfig, envConfig);
+        service[keyName] = deepmerge(defaultConfig, envConfig);
+        return;
       });
 
       return service;
