@@ -23,6 +23,7 @@ async function resolveService(project) {
         searchPlaces: [
           '.devconfig.yaml',
           '.devconfig.yml',
+          '.devconfig.cjs',
           '.devconfig.js',
           '.devconfig.json',
         ],
@@ -45,9 +46,10 @@ async function resolveService(project) {
       // resolve each service
       await Promise.map(Object.keys(search.config), async keyName => {
         const config = search.config[keyName];
-
+        console.log('typeof config :>> ', typeof config);
         // if it's a function, pass the whole project config a
         if (typeof config === 'function') {
+          console.log('config :>> ', config);
           service[keyName] = await config(project.current, project);
           return;
         }

@@ -6,7 +6,6 @@ const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const { readYaml } = require('../utils/yaml');
 
-
 module.exports = async toolbox => {
   const { print } = toolbox;
   // reads the config

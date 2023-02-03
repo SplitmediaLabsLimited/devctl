@@ -1,9 +1,10 @@
 const find = require('lodash/find');
 const { resolve } = require('path');
+const { get } = require('lodash');
 
 function getCustomCommands(toolbox) {
-  const { get, print } = toolbox;
-  const commands = get('commands', []);
+  const { print } = toolbox;
+  const commands = get(toolbox, 'commands', []);
 
   print.newline();
   print.info('Custom commands: ');
@@ -22,7 +23,7 @@ module.exports = {
   name: 'devctl',
   hidden: true,
   run: async toolbox => {
-    const { get, print } = toolbox;
+    const { print } = toolbox;
     const { first } = toolbox.parameters;
 
     if (!first) {
@@ -38,7 +39,7 @@ module.exports = {
       return;
     }
 
-    const command = find(get('commands'), { name: first });
+    const command = find(get(toolbox, 'commands'), { name: first });
 
     if (!command) {
       print.info(

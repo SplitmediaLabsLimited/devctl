@@ -23,6 +23,10 @@ interface DevctlConfig {
   secrets?: SecretsEntry[];
   environment?: EnvironmentConfigEntry[];
   current?: any;
+  cwd?: string;
+  paths?: {
+    [key: string]: string[];
+  };
 }
 
 export default DevctlConfig;

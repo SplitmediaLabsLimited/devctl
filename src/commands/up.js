@@ -5,6 +5,7 @@ const { print } = require('@cipherstash/gluegun');
 const {
   createDockerComposeCommand,
   writeComposeFileToHomeDir,
+  getLastComposeFile,
 } = require('../utils/dockerCompose');
 
 const { readScripts, runScripts } = require('../utils/runScripts');
@@ -20,7 +21,6 @@ module.exports = {
     await runScripts(allScripts, 'beforeSwitch', false);
 
     if (!compose) {
-      console.log('compose :>> ', compose);
       return require('../cli').run('switch');
     }
 

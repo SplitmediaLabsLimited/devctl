@@ -2,6 +2,7 @@ import { Toolbox } from '@cipherstash/gluegun/build/types/domain/toolbox';
 import DevctlConfig, { SecretsEntry } from '../types/config.mjs';
 import Bluebird from 'bluebird'
 import deepmerge from 'deepmerge';
+import { resolve } from 'path'
 
 interface VaultConfig {
   endpoint?: string;
@@ -56,7 +57,7 @@ module.exports = {
   run: async (toolbox: Toolbox) => {
     ``
     const { config, system, print, filesystem } = toolbox;
-    const { secrets, current } = config as DevctlConfig;
+    const { secrets, current, cwd } = config as DevctlConfig;
 
     if (!current) {
       // if current isn't set, run switch, then rerun pull secrets
@@ -78,6 +79,7 @@ module.exports = {
       const { provider, prefix } = secret;
       if (provider == 'vault') {
         const { config, entries, files } = secret as VaultSecretsEntry;
+
         const { binary, loginArgs, endpoint } = {
           binary: 'vault',
           loginArgs: ['login'],
@@ -117,7 +119,7 @@ module.exports = {
               env: { ...process.env, VAULT_ADDR: endpoint }
             });
 
-            filesystem.write(path, raw);
+            filesystem.write(resolve(cwd, path), raw);
           }
         }
 
@@ -129,7 +131,7 @@ module.exports = {
               env: { ...process.env, VAULT_ADDR: endpoint }
             });
 
-            filesystem.write(path, raw);
+            filesystem.write(resolve(cwd, path), raw);
           }
         }
 
