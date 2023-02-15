@@ -14,8 +14,9 @@ module.exports = {
   name: 'up',
   description: `Builds, creates, starts, and attaches to containers for a service`,
   run: async toolbox => {
-    const { config } = toolbox;
+    const { config, filesystem } = toolbox;
     const compose = get(config, 'paths.compose');
+    const secrets = get(config, 'paths.secrets');
     const allScripts = await readScripts(get(config, 'paths.scripts'));
 
     await runScripts(allScripts, 'beforeSwitch', false);
@@ -28,6 +29,11 @@ module.exports = {
 
     // shut down first!
     await require('../cli').run('down');
+
+    // if secrets exist in the config. pull em
+    if (filesystem.exists(secrets)) {
+      await require('../cli').run('pull-secrets');
+    }
 
     // write it in the home folder of the users so that we can detect it if we switch project
     // and remove it

@@ -38,7 +38,14 @@ async function processSecretEntries(entries, options) {
 
     const [keyString, version] = key.split('@');
     const [keyPath, jsonPath] = keyString.split(':');
-    const raw = await system.run(`${binary} kv get -format=json -field=data -version=${version} ${keyPath}`, {
+
+    let command = '';
+    if (version === 'latest') {
+      command = `${binary} kv get -format=json -field=data ${keyPath}`;
+    } else {
+      command = `${binary} kv get -format=json -field=data -version=${version} ${keyPath}`;
+    }
+    const raw = await system.run(command, {
       env: { ...process.env, VAULT_ADDR: endpoint }
     });
     const parsed = JSON.parse(raw);
@@ -93,10 +100,20 @@ module.exports = {
           );
         }
 
-        // Run login
-        const login = await system.run(`${binary} ${loginArgs.join(' ')}`, {
-          env: { ...process.env, VAULT_ADDR: endpoint }
-        });
+        // Check if login is necessary at all
+        try {
+          await system.run(`${binary} token lookup`, {
+            env: { ...process.env, VAULT_ADDR: endpoint }
+          });
+        } catch (e) {
+
+          // Run login
+          if (e.code === 2) {
+            await system.run(`${binary} ${loginArgs.join(' ')}`, {
+              env: { ...process.env, VAULT_ADDR: endpoint }
+            });
+          }
+        }
 
         let secretEntries = {};
 
@@ -111,11 +128,20 @@ module.exports = {
           secretEntries = deepmerge(secretEntries, envEntries);
         }
 
+
         if ('default' in files) {
           for await (const { path, key } of files['default']) {
             const [keyString, version] = key.split('@');
 
-            const raw = await system.run(`${binary} kv get -format=json -field=data -version=${version} ${keyString}`, {
+            let command = '';
+
+            if (version === 'latest') {
+              command = `${binary} kv get -format=json -field=data ${keyString}`;
+            } else {
+              command = `${binary} kv get -format=json -field=data -version=${version} ${keyString}`;
+            }
+
+            const raw = await system.run(command, {
               env: { ...process.env, VAULT_ADDR: endpoint }
             });
 
@@ -127,7 +153,13 @@ module.exports = {
           for await (const { path, key } of files[environment]) {
             const [keyString, version] = key.split('@');
 
-            const raw = await system.run(`${binary} kv get -format=json -field=data -version=${version} ${keyString}`, {
+            let command = '';
+            if (version === 'latest') {
+              command = `${binary} kv get -format=json -field=data ${keyString}`;
+            } else {
+              command = `${binary} kv get -format=json -field=data -version=${version} ${keyString}`;
+            }
+            const raw = await system.run(command, {
               env: { ...process.env, VAULT_ADDR: endpoint }
             });
 

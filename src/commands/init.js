@@ -90,6 +90,16 @@ module.exports = {
 
     print.info(`${print.colors.highlight('.devctl.yaml')} written.`);
 
+    await template.generate({
+      template: 'gitignore.ejs',
+      target: '.gitignore',
+      props: {
+        values: response,
+      },
+    });
+
+    print.info(`${print.colors.highlight('.gitignore')} written.`);
+
     print.success(``);
     print.success(`Your project has been successfully bootstrapped!`);
     print.info(
