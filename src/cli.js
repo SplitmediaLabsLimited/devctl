@@ -1,5 +1,4 @@
 const { build } = require('@cipherstash/gluegun');
-const node_modules = require('node_modules-path');
 
 /**
  * Create the cli and kick it off
@@ -9,7 +8,7 @@ async function run(argv) {
   const cli = build()
     .brand('devctl')
     .src(__dirname)
-    .plugins(node_modules(), {
+    .plugins('node_modules', {
       matching: 'devctl-*',
       hidden: false,
     })
@@ -24,4 +23,4 @@ async function run(argv) {
   return toolbox;
 }
 
-module.exports = { run };
+module.exports = {run};

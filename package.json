@@ -1,11 +1,11 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "main": "dist/cli.js",
   "bin": {
-    "devctl": "bin/devctl"
+    "devctl": "./bin/devctl.js"
   },
   "scripts": {
     "build": "tsc -b",
@@ -30,12 +30,13 @@
   "license": "MIT",
   "dependencies": {
     "@cipherstash/gluegun": "^5.1.2",
+    "@expo/spawn-async": "^1.7.0",
     "bluebird": "^3.7.2",
     "concurrently": "^5.0.2",
     "cosmiconfig": "8",
     "deepmerge": "^4.2.2",
     "dockerode": "^3.0.2",
-    "execa": "^6.1.0",
+    "execa": "^7.0.0",
     "get-port": "^5.0.0",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
@@ -44,18 +45,21 @@
     "node_modules-path": "^2.0.5"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.38",
     "@types/mustache": "^4.2.2",
+    "@types/node": "^18.14.2",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.1",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-jest": "^23.0.5",
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^29.3.1",
-    "prettier": "^1.19.1",
+    "prettier": "^2.8.4",
     "rimraf": "^4.1.2",
     "typescript": "^4.6.3"
   },
   "volta": {
-    "node": "16.14.2"
+    "node": "16.18.1"
   }
 }

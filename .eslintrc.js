@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['prettier', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   parserOptions: {
     ecmaVersion: 7,
     sourceType: 'module',

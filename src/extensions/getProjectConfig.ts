@@ -1,4 +1,4 @@
-import DevctlConfig from '../types/config.mjs';
+import { DevctlConfig } from '../types/config.js';
 
 const { cosmiconfig } = require('cosmiconfig');
 const { resolve, dirname } = require('path');

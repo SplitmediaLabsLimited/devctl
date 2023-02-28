@@ -22,17 +22,17 @@ module.exports = {
     await runScripts(allScripts, 'beforeSwitch', false);
 
     if (!compose) {
-      return require('../cli').run('switch');
+      return require('../cli.js').run('switch');
     }
 
     await runScripts(allScripts, 'afterSwitch', false);
 
     // shut down first!
-    await require('../cli').run('down');
+    await require('../cli.js').run('down');
 
     // if secrets exist in the config. pull em
     if (filesystem.exists(secrets)) {
-      await require('../cli').run('pull-secrets');
+      await require('../cli.js').run('pull-secrets');
     }
 
     // write it in the home folder of the users so that we can detect it if we switch project
@@ -50,7 +50,7 @@ module.exports = {
     });
 
     // show the status, but we're not done!
-    await require('../cli').run('status');
+    await require('../cli.js').run('status');
 
     await runScripts(allScripts, 'start', true);
 

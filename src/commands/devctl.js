@@ -34,7 +34,7 @@ module.exports = {
       print.newline();
       print.info('Running services: ');
       print.newline();
-      await require('../cli').run('status');
+      await require('../cli.js').run('status');
 
       return;
     }
