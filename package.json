@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "main": "dist/cli.js",
