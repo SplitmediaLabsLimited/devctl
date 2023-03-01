@@ -23,6 +23,7 @@ export type SecretFile = {
 }
 
 export interface SecretsEntries {
+  default?: Secret[];
   [environment: string]: Secret[];
 }
 
@@ -38,11 +39,20 @@ export interface SecretsProviderEntry {
   files: SecretsFiles;
 }
 
+export interface DevctlCurrent {
+  services: string[];
+  environment: string;
+  dockerhost?: {
+    address: string;
+    interfaceName: string;
+  }
+}
+
 export interface DevctlConfig {
   services?: ServicesConfigEntry[];
   secrets?: SecretsProviderEntry[];
   environment?: EnvironmentConfigEntry[];
-  current?: any;
+  current?: DevctlCurrent;
   cwd?: string;
   paths?: {
     [key: string]: string;

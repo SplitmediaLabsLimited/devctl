@@ -31,11 +31,13 @@
   "dependencies": {
     "@cipherstash/gluegun": "^5.1.2",
     "@expo/spawn-async": "^1.7.0",
+    "@google-cloud/secret-manager": "^4.2.1",
     "bluebird": "^3.7.2",
     "concurrently": "^5.0.2",
     "cosmiconfig": "8",
     "deepmerge": "^4.2.2",
     "dockerode": "^3.0.2",
+    "dotenv": "^16.0.3",
     "execa": "^7.0.0",
     "get-port": "^5.0.0",
     "js-yaml": "^3.13.1",

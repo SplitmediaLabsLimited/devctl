@@ -30,14 +30,14 @@ module.exports = {
     await Bluebird.map(secrets, async (secret: SecretsProviderEntry) => {
       const { prefix } = secret;
       const secretsProvider = await initSecretsProvider(secret, config);
+      await secretsProvider.authenticate();
 
-      const populatedSecrets = {
-        [prefix]: await secretsProvider.fetch(environment),
-      };
+      populatedSecrets[prefix] = await secretsProvider.fetch(environment);
 
-      filesystem.write(config.paths.secrets, populatedSecrets);
       await secretsProvider.generate(environment);
     });
+
+    filesystem.write(config.paths.secrets, populatedSecrets);
   },
 
 };

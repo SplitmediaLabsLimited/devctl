@@ -101,11 +101,11 @@ class VaultSecretsProvider extends SecretsProvider {
     return secretEntries;
   }
 
-  async generate(environment: string): Promise<void> {
+  async generate(environment: string) {
     const { files } = this.entry;
     const { cwd } = this.devctl;
 
-    if ('default' in files) {
+    if (files && 'default' in files) {
       for await (const { path, key } of files['default']) {
         const [keyString, version] = key.split('@');
 
@@ -125,7 +125,7 @@ class VaultSecretsProvider extends SecretsProvider {
       }
     }
 
-    if (environment in files) {
+    if (files && environment in files) {
       for await (const { path, key } of files[environment]) {
         const [keyString, version] = key.split('@');
 
