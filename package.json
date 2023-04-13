@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "main": "dist/cli.js",
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.38",
     "@types/mustache": "^4.2.2",
-    "@types/node": "^18.14.2",
+    "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.1",

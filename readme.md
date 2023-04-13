@@ -11,7 +11,7 @@ DevCTL is a CLI app designed to:
 
 ## Requirements
 
-- Node 8+
+- Node 16+
 - NPM or Yarn
 - Docker
 - Docker-Compose
@@ -26,7 +26,7 @@ DevCTL is a CLI app designed to:
 
 DevCTL decreases the onboarding time of new devs in any of our projects at Splitmedialabs. All the new users needs to have installed is docker, docker-compose and NodeJS 8+. Once a project is setup with devctl, its users does not require knowledge of docker.
 
-## What DevCLT is **NOT**
+## What DevCTL is **NOT**
 
 - It is not a thick layer on docker-compose. It's a tool to switch "presets" of services. For advanced use cases, you still need to know how docker-compose and its networking components works. For simple use cases, the CLI generators should be enought to help you. **If you don't understand docker-compose, this project will most likely make it more confusing.**
 - The docker-compose files that it generates are not meant to be used in production.
