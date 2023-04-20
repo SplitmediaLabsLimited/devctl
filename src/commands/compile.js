@@ -12,103 +12,76 @@ module.exports = {
   hidden: true,
   run: async ({ config, get }) => {
     if (!config.current) {
-      return require('../cli').run(
-        'switch-current'
-      );
+      return require('../cli').run('switch-current');
+    }
+    // if secrets exist in the config. pull em
+    const secrets = config?.paths?.secrets;
+    if (secrets && !filesystem.exists(secrets)) {
+      await require('../cli.js').run('pull-secrets');
+      return require('../cli.js').run('compile');
+    } else {
+      await require('../cli.js').run('pull-secrets');
     }
 
     // expand services by reading each services' config
-    const services = await resolveService(
-      config
-    );
+    const services = await resolveService(config);
 
     let finalDockerCompose = {};
 
-    await Promise.map(
-      services,
-      async service => {
-        const {
-          compose,
-          dotenv,
-          path,
-        } = service;
+    await Promise.map(services, async (service) => {
+      const { compose, dotenv, path } = service;
 
-        // compile the final docker-compose
-        finalDockerCompose = deepmerge(
-          finalDockerCompose,
-          compose || {}
-        );
-        if (!dotenv) {
-          return;
-        }
-
-        const dotenvPath = filesystem.resolve(
-          path,
-          '.env'
-        );
-
-        let finalDotEnv = {};
-
-        const exists = await filesystem.exists(
-          dotenvPath
-        );
-
-        if (exists) {
-          const raw = await filesystem.read(
-            dotenvPath
-          );
-          finalDotEnv = parseEnv(raw);
-        }
-
-        finalDotEnv = {
-          ...finalDotEnv,
-          ...dotenv,
-        };
-
-        await filesystem.write(
-          dotenvPath,
-          stringifyToEnv(finalDotEnv)
-        );
+      // compile the final docker-compose
+      finalDockerCompose = deepmerge(finalDockerCompose, compose || {});
+      if (!dotenv) {
+        return;
       }
-    );
+
+      const dotenvPath = filesystem.resolve(path, '.env');
+
+      let finalDotEnv = {};
+
+      const exists = await filesystem.exists(dotenvPath);
+
+      if (exists) {
+        const raw = await filesystem.read(dotenvPath);
+        finalDotEnv = parseEnv(raw);
+      }
+
+      finalDotEnv = {
+        ...finalDotEnv,
+        ...dotenv,
+      };
+
+      await filesystem.write(dotenvPath, stringifyToEnv(finalDotEnv));
+    });
 
     // scripts
-    const afterSwitch = await Promise.map(
-      services,
-      async service => {
-        const {
-          afterSwitch = {},
-          name,
-        } = service;
-        const scripts = Object.values(
-          afterSwitch
-        );
-        if (scripts.length === 0) {
-          return null;
-        }
-
-        return {
-          name,
-          scripts,
-        };
+    const afterSwitch = await Promise.map(services, async (service) => {
+      const { afterSwitch = {}, name } = service;
+      const scripts = Object.values(afterSwitch);
+      if (scripts.length === 0) {
+        return null;
       }
-    );
 
-    const start = await Promise.map(
-      services,
-      async service => {
-        const { start = {}, name } = service;
-        const scripts = Object.values(start);
-        if (scripts.length === 0) {
-          return null;
-        }
+      return {
+        name,
+        scripts,
+      };
+    });
 
-        return {
-          name,
-          scripts,
-        };
+    const start = await Promise.map(services, async (service) => {
+      const { start = {}, name } = service;
+      const scripts = Object.values(start);
+      if (scripts.length === 0) {
+        return null;
       }
-    );
+
+      return {
+        name,
+        scripts,
+      };
+    });
 
     await filesystem.write(
       get('paths.scripts'),
@@ -121,33 +94,21 @@ module.exports = {
     if (get('proxy.enabled', false)) {
       // the user has enabled the proxy.
 
-      const dockerhost = get(
-        'current.dockerhost.address'
-      );
+      const dockerhost = get('current.dockerhost.address');
 
       const routes = {};
 
       get('current.services', [])
-        .map(svc => {
-          return get([
-            'services',
-            svc,
-            'proxy',
-          ]);
+        .map((svc) => {
+          return get(['services', svc, 'proxy']);
         })
-        .filter(i => !!i)
-        .forEach(proxies => {
-          proxies.forEach(proxy => {
-            const {
-              port,
-              protocol = 'http',
-              paths,
-            } = proxy;
+        .filter((i) => !!i)
+        .forEach((proxies) => {
+          proxies.forEach((proxy) => {
+            const { port, protocol = 'http', paths } = proxy;
 
-            paths.forEach(path => {
-              routes[
-                path
-              ] = `${protocol}://${dockerhost}:${port}`;
+            paths.forEach((path) => {
+              routes[path] = `${protocol}://${dockerhost}:${port}`;
             });
           });
         });
@@ -156,26 +117,17 @@ module.exports = {
 
       if (get('proxy.ssl.key')) {
         proxy.ssl.key = await filesystem.read(
-          filesystem.resolve(
-            get('cwd'),
-            get('proxy.ssl.key')
-          )
+          filesystem.resolve(get('cwd'), get('proxy.ssl.key'))
         );
       }
 
       if (get('proxy.ssl.cert')) {
         proxy.ssl.cert = await filesystem.read(
-          filesystem.resolve(
-            get('cwd'),
-            get('proxy.ssl.cert')
-          )
+          filesystem.resolve(get('cwd'), get('proxy.ssl.cert'))
         );
       }
 
-      const httpPort = get(
-        'proxy.httpPort',
-        80
-      );
+      const httpPort = get('proxy.httpPort', 80);
 
       const environment = {
         DEVCTL_PROXY: JSON.stringify(
@@ -190,20 +142,13 @@ module.exports = {
 
       const ports = [`${httpPort}:${httpPort}`];
 
-      if (
-        get('proxy.ssl.cert') &&
-        get('proxy.ssl.key')
-      ) {
-        const httpsPort = get(
-          'proxy.httpsPort',
-          443
-        );
+      if (get('proxy.ssl.cert') && get('proxy.ssl.key')) {
+        const httpsPort = get('proxy.httpsPort', 443);
         ports.push(`${httpsPort}:${httpsPort}`);
       }
 
       finalDockerCompose['devctl-proxy'] = {
-        image:
-          'splitmedialabs/devctl-proxy:latest',
+        image: 'splitmedialabs/devctl-proxy:latest',
         restart: 'always',
         ports,
         environment,
@@ -221,8 +166,6 @@ module.exports = {
       YAML.dump(dockerComposeToWrite)
     );
 
-    // next step!
-    await require('../cli').run('up');
     return;
   },
 };
