@@ -10,13 +10,11 @@ const flatten = (arr) => [].concat(...arr).filter((a) => !!a);
 module.exports = {
   name: 'compile',
   hidden: true,
-  run: async ({ config, get, getProjectConfig }) => {
+  run: async (toolbox) => {
+    const { config, get, getProjectConfig } = toolbox;
     if (!config.current) {
       return require('../cli').run('switch-current');
     }
-
-    await require('../cli.js').run('pull-secrets');
-    await getProjectConfig();
 
     // expand services by reading each services' config
     const services = await resolveService(config);

@@ -37,7 +37,7 @@ module.exports = {
       await secretsProvider.generate(environment);
     });
 
-    filesystem.write(config.paths.secrets, populatedSecrets);
+    await filesystem.writeAsync(config.paths.secrets, populatedSecrets);
   },
 
 };

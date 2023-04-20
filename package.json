@@ -1,6 +1,6 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "author": "Makara Sok",
   "description": "Easily start developing in monorepos with docker-compose",
   "main": "dist/cli.js",
@@ -38,7 +38,6 @@
     "deepmerge": "^4.2.2",
     "dockerode": "^3.0.2",
     "dotenv": "^16.0.3",
-    "execa": "^7.0.0",
     "get-port": "^5.0.0",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
@@ -60,6 +59,7 @@
     "rimraf": "^4.1.2",
     "typescript": "^4.6.3"
   },
+
   "volta": {
     "node": "16.18.1"
   }

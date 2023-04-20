@@ -1,6 +1,6 @@
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
-import { DevctlConfig, Secret, SecretsConfig, SecretsProviderEntry } from '../../types/config';
-import { SecretsProvider } from '../../types/secrets';
+import { DevctlConfig, Secret, SecretsConfig, SecretsProviderEntry } from '../../types/config.js';
+import { SecretsProvider } from '../../types/secrets.js';
 import Bluebird from 'bluebird';
 import { parse } from "dotenv";
 import deepmerge from 'deepmerge';
