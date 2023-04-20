@@ -5,23 +5,18 @@ const deepmerge = require('deepmerge');
 const { stringifyToEnv, parseEnv } = require('../utils/dotenv');
 const resolveService = require('../utils/resolveService');
 
-const flatten = arr => [].concat(...arr).filter(a => !!a);
+const flatten = (arr) => [].concat(...arr).filter((a) => !!a);
 
 module.exports = {
   name: 'compile',
   hidden: true,
-  run: async ({ config, get }) => {
+  run: async ({ config, get, getProjectConfig }) => {
     if (!config.current) {
       return require('../cli').run('switch-current');
     }
-    // if secrets exist in the config. pull em
-    const secrets = config?.paths?.secrets;
-    if (secrets && !filesystem.exists(secrets)) {
-      await require('../cli.js').run('pull-secrets');
-      return require('../cli.js').run('compile');
-    } else {
-      await require('../cli.js').run('pull-secrets');
-    }
+
+    await require('../cli.js').run('pull-secrets');
+    await getProjectConfig();
 
     // expand services by reading each services' config
     const services = await resolveService(config);

@@ -14,9 +14,6 @@ interface GCPSecretsConfig extends SecretsConfig {
 }
 
 class GCPSecretsProvider extends SecretsProvider {
-  entry: SecretsProviderEntry;
-  devctl: DevctlConfig;
-
   environment: string;
   projectId: string;
   secretsClient: SecretManagerServiceClient;

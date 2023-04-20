@@ -44,8 +44,6 @@ interface VaultSecretsProviderEntry extends SecretsProviderEntry {
 }
 
 class VaultSecretsProvider extends SecretsProvider {
-  devctl: DevctlConfig;
-  entry: VaultSecretsProviderEntry;
   binary: string;
   loginArgs: string[];
   endpoint: string;
