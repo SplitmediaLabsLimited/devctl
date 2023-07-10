@@ -71,6 +71,7 @@ module.exports = {
   hidden: true,
   description: `Switch services and/or environment`,
   run: async toolbox => {
+    console.log('Running switch-current');
     const project = toolbox.config;
 
     const { services } = await askServices(project);

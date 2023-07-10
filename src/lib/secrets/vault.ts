@@ -69,16 +69,17 @@ class VaultSecretsProvider extends SecretsProvider {
 
   async authenticate(): Promise<void> {
     try {
+      console.log(`Token lookup...`)
       await spawnAsync(this.binary, ['token', 'lookup'], {
         env: { ...process.env, VAULT_ADDR: this.endpoint }
       });
     } catch (e) {
+      console.log(`Token lookup failed. Authenticating...`)
       // Run login
-      if (e.code === 2) {
-        await spawnAsync(this.binary, [...this.loginArgs], {
-          env: { ...process.env, VAULT_ADDR: this.endpoint }
-        });
-      }
+      await spawnAsync(this.binary, [...this.loginArgs], {
+        env: { ...process.env, VAULT_ADDR: this.endpoint }
+      });
+      console.log(`Token lookup failed. Authenticating... Done.`)
     }
   };
 
