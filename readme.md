@@ -24,12 +24,12 @@ DevCTL is a CLI app designed to:
 - You switch between projects back and forth, and they all have their own services to run, and they collide in ports.
 - You have a new guy to onboard fast.
 
-DevCTL decreases the onboarding time of new devs in any of our projects at Splitmedialabs. All the new users needs to have installed is docker, docker-compose and NodeJS 8+. Once a project is setup with devctl, its users does not require knowledge of docker.
+DevCTL decreases the onboarding time of new devs in any of our projects at Splitmedialabs. All the new users needs to have installed is docker (with docker compose V2) and NodeJS 16+. Once a project is setup with devctl, its users does not require knowledge of docker.
 
 ## What DevCTL is **NOT**
 
-- It is not a thick layer on docker-compose. It's a tool to switch "presets" of services. For advanced use cases, you still need to know how docker-compose and its networking components works. For simple use cases, the CLI generators should be enought to help you. **If you don't understand docker-compose, this project will most likely make it more confusing.**
-- The docker-compose files that it generates are not meant to be used in production.
+- It is not a thick layer on docker compose. It's a tool to switch "presets" of services. For advanced use cases, you still need to know how docker compose and its networking components works. For simple use cases, the CLI generators should be enought to help you. **If you don't understand docker compose, this project will most likely make it more confusing.**
+- The docker-compose.yaml files that it generates are not meant to be used in production.
 
 ## Getting Started
 

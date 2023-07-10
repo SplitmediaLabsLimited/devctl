@@ -1,7 +1,11 @@
 {
   "name": "@splitmedialabs/devctl",
-  "version": "4.4.6",
-  "author": "Makara Sok",
+  "version": "4.5.0",
+  "contributors": [
+    "Makara Sok",
+    "Enrico Suarez <ensu@splitmedialabs.com>",
+    "Rokn Hamdan"
+  ],
   "description": "Easily start developing in monorepos with docker-compose",
   "main": "dist/cli.js",
   "bin": "./bin/devctl.js",
