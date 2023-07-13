@@ -12,9 +12,9 @@ module.exports = {
   hidden: true,
   run: async (toolbox) => {
     const { config, get, getProjectConfig } = toolbox;
-    if (!config.current) {
-      return require('../cli').run('switch-current');
-    }
+    // if (!config.current) {
+    //   return require('../cli').run('switch-current');
+    // }
 
     // expand services by reading each services' config
     const services = await resolveService(config);

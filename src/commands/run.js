@@ -4,7 +4,7 @@ const { readYaml } = require('../utils/yaml');
 
 async function showHelp(project) {
   print.info(
-    `Run a one-off command on a service.. Shortcut for "docker-compose run"`
+    `Run a one-off command on a service.. Shortcut for "docker compose run"`
   );
 
   print.info('');
